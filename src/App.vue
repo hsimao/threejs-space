@@ -162,7 +162,7 @@ onMounted(() => {
   const loader = new GLTFLoader();
   loader.setDRACOLoader(dracoLoader);
 
-  // 載入 3d 模型
+  // 載入 太空梭 3d 模型 1
   loader.load("./model/xz.glb", (gltf) =>
     handleLoadModelWrapper(gltf, scene, (gltf) => {
       // 縮小
@@ -172,6 +172,7 @@ onMounted(() => {
     })
   );
 
+  // 載入 太空梭 3d 模型 2
   loader.load("./model/xq6.glb", (gltf) =>
     handleLoadModelWrapper(gltf, scene, (gltf) => {
       // 縮小
@@ -181,12 +182,19 @@ onMounted(() => {
     })
   );
 
+  // 載入 太空梭 3d 模型 3
   loader.load("./model/gr75.glb", (gltf) =>
     handleLoadModelWrapper(gltf, scene, (gltf) => {
       // 向右, 向下偏移
       gltf.scene.position.set(3, -16, 0);
     })
   );
+
+  // 載入月亮 3d 模式, 來當成星星
+  loader.load("./model/moon.glb", (gltf) => {
+    const moon = gltf.scene.children[0];
+    scene.add(moon);
+  });
 
   // 滑鼠滾動控制 camera
   window.addEventListener("mousewheel", (e) => handleMousewheel(camera, e));
