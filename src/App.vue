@@ -110,7 +110,7 @@ onMounted(() => {
     45,
     window.innerWidth / window.innerHeight,
     0.1,
-    1000
+    100000
   );
 
   camera.position.set(0, 0, 10);
@@ -192,8 +192,39 @@ onMounted(() => {
 
   // 載入月亮 3d 模式, 來當成星星
   loader.load("./model/moon.glb", (gltf) => {
+    // 5000 顆星球
+    const count = 5000;
     const moon = gltf.scene.children[0];
-    scene.add(moon);
+
+    const moonInstance = new THREE.InstancedMesh(
+      moon.geometry,
+      moon.material,
+      count
+    );
+
+    // 創建星球矩陣實例
+    for (let i = 0; i < count; i++) {
+      // 隨機座標 -500 ~ 500
+      const x = Math.random() * 1000 - 500;
+      const y = Math.random() * 1000 - 500;
+      const z = Math.random() * 1000 - 500;
+      const size = Math.random() * 20 - 8;
+
+      const matrix = new THREE.Matrix4();
+      matrix.makeScale(size, size, size);
+      matrix.makeTranslation(x, y, z);
+      moonInstance.setMatrixAt(i, matrix);
+    }
+
+    // 移動動畫
+    gsap.to(moonInstance.position, {
+      duration: Math.random() * 50 + 2,
+      z: -1000,
+      ease: "linear",
+      repeat: -1
+    });
+
+    scene.add(moonInstance);
   });
 
   // 滑鼠滾動控制 camera
