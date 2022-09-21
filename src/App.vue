@@ -41,21 +41,21 @@ const handleLoadModelWrapper = (gltf, scene, optionsFn) => {
   window.addEventListener("mousemove", (e) => handleMousemove(gltf, e));
 };
 
-const currentPage = ref(0);
+let currentPage = 0;
 const updatePageByScroll = (e) => {
   // 往下滾
   if (e.wheelDelta < 0) {
-    currentPage.value++;
-    if (currentPage.value > 2) currentPage.value = 2;
+    currentPage++;
+    if (currentPage > 2) currentPage = 2;
   }
 
   // 往上滾
   if (e.wheelDelta > 0) {
-    currentPage.value--;
-    if (currentPage.value < 0) currentPage.value = 0;
+    currentPage--;
+    if (currentPage < 0) currentPage = 0;
   }
 
-  return currentPage.value;
+  return currentPage;
 };
 
 // handle scroll
@@ -93,7 +93,7 @@ const updateModelRotate = (gltf, { x, y, duration }) => {
   timeline.to(gltf.scene.rotation, {
     duration,
     x,
-    y,
+    y
   });
 };
 
